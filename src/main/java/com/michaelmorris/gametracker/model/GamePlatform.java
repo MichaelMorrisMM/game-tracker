@@ -1,33 +1,39 @@
 package com.michaelmorris.gametracker.model;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import java.util.List;
+import javax.persistence.ManyToOne;
+import java.time.LocalDate;
 
 @Entity
 @Data
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-public class Developer {
+public class GamePlatform {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String name;
+    @ManyToOne
+    private Game game;
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "developers")
-    @JsonIgnore
-    private List<Game> games;
+    @ManyToOne
+    private Platform platform;
+
+    @Column
+    private LocalDate releaseDate;
+
+    @Column
+    @Enumerated(EnumType.STRING)
+    private Region region;
 
 }

@@ -17,7 +17,7 @@ import java.util.List;
 @Entity
 @Data
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-public class System {
+public class Company {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +26,7 @@ public class System {
     @Column(nullable = false)
     private String name;
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "systems")
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "companies")
     @JsonIgnore
     private List<Game> games;
 
