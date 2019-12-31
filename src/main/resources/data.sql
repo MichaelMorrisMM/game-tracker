@@ -1,17 +1,12 @@
 INSERT INTO game (id, title) VALUES (1, 'Halo: Combat Evolved');
 
-INSERT INTO system (id, name) VALUES (1, 'Xbox');
+INSERT INTO platform (id, name) VALUES (1, 'Xbox');
 
-INSERT INTO developer (id, name) VALUES (1, 'Bungie');
+INSERT INTO company (id, name) VALUES (1, 'Bungie');
+INSERT INTO company (id, name) VALUES (2, 'Microsoft');
 
-INSERT INTO rating (id, name) VALUES (1, 'M');
+INSERT INTO game_platform (id, game_id, platform_id, release_date, region) VALUES (1, 1, 1, '2001-11-15', 'NA');
 
-INSERT INTO publisher (id, name) VALUES (1, 'Microsoft');
+INSERT INTO game_companies (games_id, companies_id) VALUES (1, 1);
 
-INSERT INTO game_systems (games_id, systems_id) VALUES (1, 1);
-
-INSERT INTO game_developers (games_id, developers_id) VALUES (1, 1);
-
-INSERT INTO game_publishers (games_id, publishers_id) VALUES (1, 1);
-
-INSERT INTO game_ratings (game_id, ratings_id) VALUES (1, 1);
+INSERT INTO game_age_ratings (game_id, age_rating) VALUES (1, 'M');
