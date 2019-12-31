@@ -2,7 +2,13 @@ package com.michaelmorris.gametracker.model;
 
 public enum Region {
 
-    NA,
-    EU
+    EUROPE,
+    NORTH_AMERICA,
+    AUSTRALIA,
+    NEW_ZEALAND,
+    JAPAN,
+    CHINA,
+    ASIA,
+    WORLDWIDE
 
 }
