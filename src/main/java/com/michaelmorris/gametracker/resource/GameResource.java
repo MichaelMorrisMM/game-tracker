@@ -1,8 +1,7 @@
 package com.michaelmorris.gametracker.resource;
 
 import com.michaelmorris.gametracker.model.Game;
-import com.michaelmorris.gametracker.model.GamePlatform;
-import com.michaelmorris.gametracker.service.GamePlatformService;
+import com.michaelmorris.gametracker.service.DatabaseWrapperService;
 import com.michaelmorris.gametracker.service.GameService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +19,7 @@ import java.util.List;
 public class GameResource {
 
     private final GameService gameService;
-    private final GamePlatformService gamePlatformService;
+    private final DatabaseWrapperService databaseWrapperService;
 
     @GetMapping("/{id}")
     public ResponseEntity<Game> getGameById(@PathVariable String id) {
@@ -36,11 +35,10 @@ public class GameResource {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/game-platforms")
-    public ResponseEntity<List<GamePlatform>> getGamePlatforms(@RequestParam String gameId) {
-        return this.gameService.getGame(Long.parseLong(gameId))
-                .map((game) -> ResponseEntity.ok(this.gamePlatformService.getGamePlatformsForGame(game)))
-                .orElseGet(() -> ResponseEntity.notFound().build());
+    @GetMapping("/search")
+    public ResponseEntity<List<Game>> searchGamesByTitle(@RequestParam String title, @RequestParam(required = false) String limit) {
+        Integer limitParsed = limit != null ? Integer.parseInt(limit) : null;
+        return ResponseEntity.ok(this.databaseWrapperService.searchByTitle(title, limitParsed));
     }
 
 }

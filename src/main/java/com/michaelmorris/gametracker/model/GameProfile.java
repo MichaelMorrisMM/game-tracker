@@ -6,8 +6,6 @@ import lombok.Data;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -35,15 +33,13 @@ public class GameProfile {
     @Column
     private LocalDate lastPlayedDate;
 
-    @Column
-    @Enumerated(EnumType.STRING)
+    @ManyToOne
     private Priority priority;
+
+    @ManyToOne
+    private Status status;
 
     @ManyToMany(fetch = FetchType.LAZY)
     private List<Platform> platforms;
-
-    @Column
-    @Enumerated(EnumType.STRING)
-    private Status status;
 
 }

@@ -5,10 +5,6 @@ import com.michaelmorris.gametracker.repository.ProfileRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
-
 @Service
 @RequiredArgsConstructor
 public class ProfileService {
@@ -21,8 +17,8 @@ public class ProfileService {
         return this.profileRepository.save(profile);
     }
 
-    public List<Profile> getAllProfiles() {
-        return StreamSupport.stream(this.profileRepository.findAll().spliterator(), false).collect(Collectors.toList());
+    public Iterable<Profile> getAllProfiles() {
+        return this.profileRepository.findAll();
     }
 
 }
