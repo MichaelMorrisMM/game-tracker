@@ -4,6 +4,8 @@ import com.michaelmorris.gametracker.model.Game;
 import com.michaelmorris.gametracker.service.DatabaseWrapperService;
 import com.michaelmorris.gametracker.service.GameService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +18,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/games")
 @RequiredArgsConstructor
+@Slf4j
 public class GameResource {
 
     private final GameService gameService;
@@ -37,8 +40,13 @@ public class GameResource {
 
     @GetMapping("/search")
     public ResponseEntity<List<Game>> searchGamesByTitle(@RequestParam String title, @RequestParam(required = false) String limit) {
-        Integer limitParsed = limit != null ? Integer.parseInt(limit) : null;
-        return ResponseEntity.ok(this.databaseWrapperService.searchByTitle(title, limitParsed));
+        try {
+            Integer limitParsed = limit != null ? Integer.parseInt(limit) : null;
+            return ResponseEntity.ok(this.databaseWrapperService.searchByTitle(title, limitParsed));
+        } catch (Exception e) {
+            log.error("Error when searching by title " + title, e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
 }

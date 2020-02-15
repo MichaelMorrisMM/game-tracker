@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface DatabaseWrapperService {
 
-    List<Game> searchByTitle(String title, Integer limit);
+    List<Game> searchByTitle(String title, Integer limit) throws Exception;
 
 }
