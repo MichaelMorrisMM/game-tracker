@@ -1,6 +1,10 @@
 package com.michaelmorris.gametracker.service;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.michaelmorris.gametracker.model.Game;
+import com.michaelmorris.gametracker.model.GameMapper;
+import com.michaelmorris.gametracker.model.IGDBGameMapper;
 import com.michaelmorris.gametracker.util.IGDBQuery;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,7 +15,9 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +29,7 @@ public class IGDBWrapperService implements DatabaseWrapperService {
     private static final String ENDPOINT_GAMES = "games";
 
     private static HttpClient client;
+    private static final ObjectMapper objectMapper = new ObjectMapper();
 
     @Value("${api_key}")
     private String API_KEY;
@@ -42,15 +49,24 @@ public class IGDBWrapperService implements DatabaseWrapperService {
 
     @Override
     public List<Game> searchByTitle(String title, Integer limit) throws Exception {
-        // TODO
         IGDBQuery query = new IGDBQuery()
-                .addSearch(title);
+                .addSearch(title)
+                .addFields(IGDBGameMapper.QUERY_FIELDS);
         if (limit != null) {
             query.addLimit(limit);
         }
-        HttpResponse<String> response = sendPostRequest(ENDPOINT_GAMES, query.build());
 
-        return null;
+        HttpResponse<String> response = sendPostRequest(ENDPOINT_GAMES, query.build());
+        List<Map<String, Object>> array = objectMapper.readValue(response.body(), new TypeReference<>(){});
+
+        List<Game> games = new ArrayList<>();
+        array.forEach(game -> {
+            GameMapper mapper = new IGDBGameMapper();
+            mapper.fromRecord(game);
+            games.add(mapper.createGame(game));
+        });
+
+        return games;
     }
 
 }
