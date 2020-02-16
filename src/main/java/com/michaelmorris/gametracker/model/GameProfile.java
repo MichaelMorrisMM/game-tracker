@@ -21,19 +21,19 @@ public class GameProfile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Game game;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Profile profile;
 
     @Column
     private LocalDate lastPlayedDate;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Priority priority;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Status status;
 
     @ManyToMany(fetch = FetchType.LAZY)

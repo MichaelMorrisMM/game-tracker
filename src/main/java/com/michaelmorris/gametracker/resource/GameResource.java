@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -47,6 +49,15 @@ public class GameResource {
             log.error("Error when searching by title " + title, e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @PostMapping
+    public ResponseEntity<Game> addGame(@RequestBody Game game) {
+        if (this.gameService.getGame(game.getTitle()).isPresent()) {
+            log.error("Game " + game.getTitle() + " already exists");
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+        return ResponseEntity.ok(this.gameService.createGame(game));
     }
 
 }
