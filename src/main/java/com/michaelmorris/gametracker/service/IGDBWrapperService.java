@@ -28,17 +28,13 @@ public class IGDBWrapperService implements DatabaseWrapperService {
 
     private static final String ENDPOINT_GAMES = "games";
 
-    private static HttpClient client;
+    private static HttpClient client = HttpClient.newHttpClient();
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
     @Value("${api_key}")
     private String API_KEY;
 
     private HttpResponse<String> sendPostRequest(String endpoint, String body) throws IOException, InterruptedException {
-        if (client == null) {
-            client = HttpClient.newHttpClient();
-        }
-
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(IGDB_BASE_URL + "/" + endpoint))
                 .header(HEADER_KEY, API_KEY)

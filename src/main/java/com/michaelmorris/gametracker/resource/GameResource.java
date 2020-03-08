@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -58,6 +59,16 @@ public class GameResource {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
         return ResponseEntity.ok(this.gameService.createGame(game));
+    }
+
+    @PutMapping
+    public ResponseEntity<Game> updateGame(@RequestBody Game game) {
+        Game updatedGame = this.gameService.updateGame(game);
+        if (updatedGame == null) {
+            log.error("Cannot find game with id " + game.getId() + " to update");
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(updatedGame);
     }
 
 }

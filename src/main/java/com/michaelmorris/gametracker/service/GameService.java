@@ -36,4 +36,14 @@ public class GameService {
         return savedGame;
     }
 
+    public Game updateGame(Game game) {
+        Optional<Game> lookup = this.getGame(game.getId());
+        if (lookup.isEmpty()) {
+            return null;
+        }
+        Game originalGame = lookup.get();
+        originalGame.setTitle(game.getTitle());
+        return this.gameRepository.save(originalGame);
+    }
+
 }
