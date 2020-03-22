@@ -4,6 +4,8 @@ INSERT INTO game_mapper (id, database, ref, url, game_id) VALUES (1, 'IGDB', 740
 
 INSERT INTO platform (id, name) VALUES (1, 'Xbox');
 
+INSERT INTO platform_mapper (id, database, ref, url, platform_id) VALUES (1, 'IGDB', 11, 'https://www.igdb.com/platforms/xbox', 1);
+
 INSERT INTO profile (id, name) VALUES (1, 'Test User');
 
 INSERT INTO priority (id, name) VALUES (1, 'High');
