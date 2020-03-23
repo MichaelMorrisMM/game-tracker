@@ -1,13 +1,16 @@
 package com.michaelmorris.gametracker.model;
 
+import lombok.AccessLevel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import java.util.Collections;
 import java.util.Map;
 
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -20,20 +23,23 @@ public class IGDBPlatformMapper extends PlatformMapper {
 
     public static final String[] QUERY_FIELDS = {FIELD_ID, FIELD_URL, FIELD_TITLE};
 
-    @Override
-    public void fromRecord(Map<String, Object> record) {
-        this.setRef(Long.valueOf((Integer) record.get(FIELD_ID)));
-        this.setUrl((String) record.get(FIELD_URL));
+    public IGDBPlatformMapper(Map<String, Object> record) {
+        super(record);
     }
 
     @Override
-    public Platform createPlatform(Map<String, Object> record) {
+    protected void fromRecord() {
+        this.setRef(Long.valueOf((Integer) this.getDatabaseRecord().get(FIELD_ID)));
+        this.setUrl((String) this.getDatabaseRecord().get(FIELD_URL));
+    }
+
+    @Override
+    public Platform createPlatform() {
         Platform platform = new Platform();
-        platform.setName((String) record.get(FIELD_TITLE));
+        platform.setName((String) this.getDatabaseRecord().get(FIELD_TITLE));
         platform.setMappers(Collections.singletonList(this));
         this.setPlatform(platform);
         return platform;
     }
-
 
 }

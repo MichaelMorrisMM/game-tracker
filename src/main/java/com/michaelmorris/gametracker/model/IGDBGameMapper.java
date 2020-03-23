@@ -1,13 +1,16 @@
 package com.michaelmorris.gametracker.model;
 
+import lombok.AccessLevel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import java.util.Collections;
 import java.util.Map;
 
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -20,16 +23,20 @@ public class IGDBGameMapper extends GameMapper {
 
     public static final String[] QUERY_FIELDS = {FIELD_ID, FIELD_URL, FIELD_TITLE};
 
-    @Override
-    public void fromRecord(Map<String, Object> record) {
-        this.setRef(Long.valueOf((Integer) record.get(FIELD_ID)));
-        this.setUrl((String) record.get(FIELD_URL));
+    public IGDBGameMapper(Map<String, Object> record) {
+        super(record);
     }
 
     @Override
-    public Game createGame(Map<String, Object> record) {
+    protected void fromRecord() {
+        this.setRef(Long.valueOf((Integer) this.getDatabaseRecord().get(FIELD_ID)));
+        this.setUrl((String) this.getDatabaseRecord().get(FIELD_URL));
+    }
+
+    @Override
+    public Game createGame() {
         Game game = new Game();
-        game.setTitle((String) record.get(FIELD_TITLE));
+        game.setTitle((String) this.getDatabaseRecord().get(FIELD_TITLE));
         game.setMappers(Collections.singletonList(this));
         this.setGame(game);
         return game;

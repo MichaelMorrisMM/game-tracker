@@ -1,9 +1,12 @@
 package com.michaelmorris.gametracker.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
@@ -16,8 +19,10 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 import java.util.Map;
 
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Data
@@ -40,8 +45,17 @@ public abstract class GameMapper {
     @JsonBackReference
     private Game game;
 
-    public abstract void fromRecord(Map<String, Object> record);
+    @Transient
+    @JsonIgnore
+    private Map<String, Object> databaseRecord;
 
-    public abstract Game createGame(Map<String, Object> record);
+    public GameMapper(Map<String, Object> record) {
+        this.databaseRecord = record;
+        this.fromRecord();
+    }
+
+    protected abstract void fromRecord();
+
+    public abstract Game createGame();
 
 }
