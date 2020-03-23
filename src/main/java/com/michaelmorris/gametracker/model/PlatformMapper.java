@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
@@ -20,7 +21,6 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
-import java.util.Map;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
@@ -41,15 +41,18 @@ public abstract class PlatformMapper {
     @Column
     private String url;
 
+    @Column
+    private String logoImageUrl;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonBackReference
     private Platform platform;
 
     @Transient
     @JsonIgnore
-    private Map<String, Object> databaseRecord;
+    private JSONObject databaseRecord;
 
-    public PlatformMapper(Map<String, Object> record) {
+    public PlatformMapper(JSONObject record) {
         this.databaseRecord = record;
         this.fromRecord();
     }

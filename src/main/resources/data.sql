@@ -1,10 +1,10 @@
 INSERT INTO game (id, title) VALUES (1, 'Halo: Combat Evolved');
 
-INSERT INTO game_mapper (id, database, ref, url, game_id) VALUES (1, 'IGDB', 740, 'https://www.igdb.com/games/halo-combat-evolved', 1);
+INSERT INTO game_mapper (id, database, ref, url, cover_image_url, game_id) VALUES (1, 'IGDB', 740, 'https://www.igdb.com/games/halo-combat-evolved', '//images.igdb.com/igdb/image/upload/t_thumb/co1x7i.jpg', 1);
 
 INSERT INTO platform (id, name) VALUES (1, 'Xbox');
 
-INSERT INTO platform_mapper (id, database, ref, url, platform_id) VALUES (1, 'IGDB', 11, 'https://www.igdb.com/platforms/xbox', 1);
+INSERT INTO platform_mapper (id, database, ref, url, logo_image_url, platform_id) VALUES (1, 'IGDB', 11, 'https://www.igdb.com/platforms/xbox', '//images.igdb.com/igdb/image/upload/t_thumb/pl7e.jpg', 1);
 
 INSERT INTO profile (id, name) VALUES (1, 'Test User');
 
