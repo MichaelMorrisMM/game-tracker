@@ -17,6 +17,6 @@ INSERT INTO status (id, name) VALUES (2, 'Unreleased');
 INSERT INTO status (id, name) VALUES (3, 'Played');
 INSERT INTO status (id, name) VALUES (4, 'Played Majority');
 
-INSERT INTO game_profile (id, game_id, profile_id, last_played_date, priority_id, status_id) VALUES (1, 1, 1, '2020-1-1', 1, 4);
+INSERT INTO game_profile (id, game_id, profile_id, notes, last_played_date, priority_id, status_id) VALUES (1, 1, 1, 'I love this game', '2020-1-1', 1, 4);
 
 INSERT INTO game_profile_platforms (game_profile_id, platforms_id) VALUES (1, 1);
