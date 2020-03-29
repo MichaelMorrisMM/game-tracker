@@ -6,6 +6,7 @@ import com.michaelmorris.gametracker.repository.ProfileRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -27,6 +28,14 @@ public class ProfileService {
 
     public Iterable<Profile> getAllProfiles() {
         return this.profileRepository.findAll();
+    }
+
+    public List<String> getAllProfileNames() {
+        return this.profileRepository.findAllNames();
+    }
+
+    public Optional<Profile> getProfileByName(String name) {
+        return this.profileRepository.findByName(name);
     }
 
     public boolean deleteProfile(String name) {

@@ -21,9 +21,21 @@ public class ProfileResource {
 
     private final ProfileService profileService;
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<Iterable<Profile>> getAllProfiles() {
         return ResponseEntity.ok(this.profileService.getAllProfiles());
+    }
+
+    @GetMapping("/names")
+    public ResponseEntity<Iterable<String>> getAllProfileNames() {
+        return ResponseEntity.ok(this.profileService.getAllProfileNames());
+    }
+
+    @GetMapping
+    public ResponseEntity<Profile> getProfile(@RequestParam String name) {
+        return this.profileService.getProfileByName(name)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
