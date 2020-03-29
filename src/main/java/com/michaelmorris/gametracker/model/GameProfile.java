@@ -8,6 +8,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import java.time.LocalDate;
@@ -26,6 +27,10 @@ public class GameProfile {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Profile profile;
+
+    @Column
+    @Lob
+    private String notes;
 
     @Column
     private LocalDate lastPlayedDate;
